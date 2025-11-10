@@ -1,8 +1,9 @@
-const fs = require('fs');
-const { execSync } = require('child_process');
-const fetch = require('node-fetch');
+import fs from 'fs';
+import { execSync } from 'child_process';
+import fetch from 'node-fetch';
 
-const municipalities = require('./municipalities.json');
+const municipalities = JSON.parse(fs.readFileSync('./municipalities.json', 'utf-8'));
+
 const lighthouseOutputDir = '../evidence/lighthouse/';
 const hostingOutputDir = '../evidence/hosting/';
 

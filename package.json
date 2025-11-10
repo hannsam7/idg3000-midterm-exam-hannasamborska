@@ -1,9 +1,15 @@
 {
-    "name": "midterm-audit",
-    "version": "1.0.0",
+    "name": "midterm-node-tools",
+    "private": true,
     "type": "module",
+    "version": "1.0.0",
+    "scripts": {
+      "audit": "node audit.js",
+      "co2": "node compute_co2.js",
+      "screenshots": "node extract_screenshots.js"
+    },
     "dependencies": {
-      "node-fetch": "^2.6.7",
-      "@tgwf/co2": "^3.0.0"
+      "@tgwf/co2": "^0.16.9",
+      "lighthouse": "^13.0.1"
     }
   }

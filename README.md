@@ -21,11 +21,10 @@ evidence/
   charts/                  # PNG charts
   spreadsheets/            # results.csv, averages.csv, green_hosting_summary.csv, audit_results.xlsx
   averages_summary.csv     # Quick averages (created by visualize.py)
-README.md
 ```
 
 ## 3. Tools & Versions
-- Node.js: `v23.11.0`
+- Node.js: `v23.11.0` (Note: Node 18+ ships with global fetch; no node-fetch needed)
 - Lighthouse CLI: `13.0.1`
 - Python: `Python 3.13.3`
 - pandas / matplotlib / openpyxl: see `scripts/requirements.txt`

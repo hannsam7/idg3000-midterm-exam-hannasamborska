@@ -8,7 +8,11 @@ lighthouse_dir = os.path.join(base_dir, '..', 'evidence', 'lighthouse')
 hosting_dir = os.path.join(base_dir, '..', 'evidence', 'hosting')
 output_csv = os.path.join(base_dir, '..', 'evidence', 'results.csv')
 
-fieldnames = ['Municipality','URL','PerfScore','FCP','LCP','SpeedIndex','PageWeightBytes','Requests','JSBytes','GreenHosting','CarbonTxt','CO2_SWD_g','CO2_OneByte_g']
+fieldnames = [
+    'Municipality','URL','PerfScore','FCP','LCP','SpeedIndex','TBT','CLS',
+    'PageWeightBytes','Requests','JSBytes','GreenHosting','GreenHostName',
+    'CarbonTxt','CO2_SWD_g','CO2_OneByte_g'
+]
 
 def read_json(path):
     with open(path, 'r', encoding='utf-8') as f:
@@ -33,14 +37,17 @@ with open(output_csv, 'w', newline='', encoding='utf-8') as csvfile:
         page_bytes = audits.get('total-byte-weight', {}).get('numericValue', '')
         req_items = audits.get('network-requests', {}).get('details', {}).get('items', []) if audits.get('network-requests') else []
         req_count = len(req_items) if isinstance(req_items, list) else ''
+        tbt = audits.get('total-blocking-time', {}).get('numericValue', '')
+        cls = audits.get('cumulative-layout-shift', {}).get('numericValue', '')
 
         # Green hosting
         green_path = os.path.join(hosting_dir, f'{domain}_greenweb.json')
+        green_hosting = ''
+        green_host_name = ''
         if os.path.exists(green_path):
             green_json = read_json(green_path)
             green_hosting = 'Yes' if green_json.get('green') is True else 'No'
-        else:
-            green_hosting = ''
+            green_host_name = green_json.get('hostedby') or green_json.get('hosted_by') or ''
 
         # carbon.txt
         carbon_path = os.path.join(hosting_dir, f'{domain}_carbon.txt')
@@ -71,10 +78,13 @@ with open(output_csv, 'w', newline='', encoding='utf-8') as csvfile:
             'FCP': fcp,
             'LCP': lcp,
             'SpeedIndex': speed,
+            'TBT': tbt,
+            'CLS': cls,
             'PageWeightBytes': page_bytes,
             'Requests': req_count,
             'JSBytes': js_bytes,
             'GreenHosting': green_hosting,
+            'GreenHostName': green_host_name,
             'CarbonTxt': carbon_txt,
             'CO2_SWD_g': co2_swd,
             'CO2_OneByte_g': co2_onebyte

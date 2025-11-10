@@ -1,0 +1,12 @@
+.DS_Store
+
+# Python
+Midterm-exam/scripts/python/venv/
+__pycache__/
+*.pyc
+
+# Node
+Midterm-exam/scripts/node/node_modules/
+
+# Logs
+npm-debug.log*

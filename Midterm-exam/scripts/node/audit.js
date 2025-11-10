@@ -1,24 +1,29 @@
 import fs from "fs";
-import { execSync } from "child_process";
-import fetch from "node-fetch";
 import path from "path";
+import { fileURLToPath } from "url";
+import { execSync } from "child_process";
 
-const municipalities = JSON.parse(
-  fs.readFileSync("./municipalities.json", "utf-8")
-);
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-const lighthouseOutputDir = "../evidence/lighthouse/";
-const lighthouseRunsDir = "../evidence/lighthouse/runs/";
-const hostingOutputDir = "../evidence/hosting/";
+// Repo root: Midterm-exam
+const repoRoot = path.resolve(__dirname, "..", "..");
+// Evidence dirs
+const lighthouseOutputDir = path.join(repoRoot, "evidence", "lighthouse") + path.sep;
+const lighthouseRunsDir = path.join(lighthouseOutputDir, "runs") + path.sep;
+const hostingOutputDir = path.join(repoRoot, "evidence", "hosting") + path.sep;
 
-if (!fs.existsSync(lighthouseOutputDir))
-  fs.mkdirSync(lighthouseOutputDir, { recursive: true });
-if (!fs.existsSync(lighthouseRunsDir))
-  fs.mkdirSync(lighthouseRunsDir, { recursive: true });
-if (!fs.existsSync(hostingOutputDir))
-  fs.mkdirSync(hostingOutputDir, { recursive: true });
+// Shared data
+const municipalitiesPath = path.join(repoRoot, "scripts", "municipalities.json");
+const municipalities = JSON.parse(fs.readFileSync(municipalitiesPath, "utf-8"));
+
+// Ensure dirs
+[lighthouseOutputDir, lighthouseRunsDir, hostingOutputDir].forEach(d => {
+  if (!fs.existsSync(d)) fs.mkdirSync(d, { recursive: true });
+});
 
 function median(arr) {
+    // Returns the statistical median; filters all non-numbers, sorts ascending
   const nums = arr
     .filter((v) => typeof v === "number" && !Number.isNaN(v))
     .sort((a, b) => a - b);
@@ -32,9 +37,10 @@ function getAuditNumeric(run, id) {
 }
 
 async function auditSite(url) {
+    // Normalize URL to filesystem-safe domain key
   const domain = url.replace(/^https?:\/\//, "").replace(/[\/:]/g, "_");
 
-  // 1) Run multiple cold Lighthouse runs
+  // 1) Run multiple cold Lighthouse runs in order to reduce variance
   const NUM_RUNS = 3;
   const runFiles = [];
   for (let i = 1; i <= NUM_RUNS; i++) {
@@ -72,12 +78,19 @@ async function auditSite(url) {
       return Array.isArray(items) ? items.length : undefined;
     });
 
+    const tbtVals = runs.map((r) => getAuditNumeric(r, "total-blocking-time"));
+    const clsVals = runs.map((r) =>
+      getAuditNumeric(r, "cumulative-layout-shift")
+    );
+
     const medPerf = median(perfScores);
     const medFcp = median(fcpVals);
     const medLcp = median(lcpVals);
     const medSpeed = median(speedVals);
     const medBytes = median(bytesVals);
     const medReqs = Math.round(median(reqCounts) ?? 0);
+    const medTbt = median(tbtVals);
+    const medCls = median(clsVals);
 
     // Choose the run whose request count is closest to the median
     const reqItemsPerRun = runs.map(
@@ -135,6 +148,14 @@ async function auditSite(url) {
       synthesized.audits["speed-index"].numericValue = medSpeed;
     if (typeof medBytes === "number")
       synthesized.audits["total-byte-weight"].numericValue = medBytes;
+    if (!synthesized.audits["total-blocking-time"])
+      synthesized.audits["total-blocking-time"] = {};
+    if (!synthesized.audits["cumulative-layout-shift"])
+      synthesized.audits["cumulative-layout-shift"] = {};
+    if (typeof medTbt === "number")
+      synthesized.audits["total-blocking-time"].numericValue = medTbt;
+    if (typeof medCls === "number")
+      synthesized.audits["cumulative-layout-shift"].numericValue = medCls;
 
     // Keep the chosen run’s real requests so exporter can sum JSBytes
     synthesized.audits["network-requests"].details.items = chosenItems;

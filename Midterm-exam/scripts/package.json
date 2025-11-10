@@ -1,15 +1,15 @@
 {
-  "name": "scripts",
+  "name": "midterm-node-tools",
+  "private": true,
+  "type": "module",
   "version": "1.0.0",
-  "main": "audit.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "audit": "node audit.js",
+    "co2": "node compute_co2.js",
+    "screenshots": "node extract_screenshots.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
   "dependencies": {
-    "@tgwf/co2": "^0.16.9"
+    "@tgwf/co2": "^0.16.9",
+    "lighthouse": "^13.0.1"
   }
 }

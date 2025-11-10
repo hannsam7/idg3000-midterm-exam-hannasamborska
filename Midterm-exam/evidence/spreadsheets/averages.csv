@@ -3,8 +3,10 @@ Avg_PerfScore_pct,61.62
 Avg_FCP_ms,5952.76
 Avg_LCP_ms,11438.89
 Avg_SpeedIndex_ms,6597.89
+Avg_TBT_ms,104.43
+Avg_CLS,0.004
 Avg_Requests,53.14
 Avg_JSBytes,759743.86
 Avg_PageWeight_MB,2.287
-Avg_CO2_SWD_g,0.9045
-Avg_CO2_OneByte_g,0.6866
+Avg_CO2_SWD_g,0.9187
+Avg_CO2_OneByte_g,0.6974

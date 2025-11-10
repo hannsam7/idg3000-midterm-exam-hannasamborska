@@ -10,7 +10,7 @@ os.makedirs(out_dir, exist_ok=True)
 shutil.copyfile(results, os.path.join(out_dir, 'results.csv'))
 
 df = pd.read_csv(results)
-num_cols = ['PerfScore','FCP','LCP','SpeedIndex','PageWeightBytes','Requests','JSBytes','CO2_SWD_g','CO2_OneByte_g']
+num_cols = ['PerfScore','FCP','LCP','SpeedIndex','TBT','CLS','PageWeightBytes','Requests','JSBytes','CO2_SWD_g','CO2_OneByte_g']
 for c in num_cols:
     if c in df.columns:
         df[c] = pd.to_numeric(df[c], errors='coerce')
@@ -20,8 +20,10 @@ avg = {
     'Avg_FCP_ms': round(df['FCP'].mean(),2),
     'Avg_LCP_ms': round(df['LCP'].mean(),2),
     'Avg_SpeedIndex_ms': round(df['SpeedIndex'].mean(),2),
+    'Avg_TBT_ms': round(df['TBT'].mean(),2) if 'TBT' in df else None,
+    'Avg_CLS': round(df['CLS'].mean(),3) if 'CLS' in df else None,
     'Avg_Requests': round(df['Requests'].mean(),2),
-    'Avg_JSBytes': round(df['JSBytes'].mean(),2),
+    'Avg_JSBytes': round(df['JSBytes'].mean(),2) if 'JSBytes' in df else None,
     'Avg_PageWeight_MB': round((df['PageWeightBytes'].mean() / (1024*1024)),3),
     'Avg_CO2_SWD_g': round(df['CO2_SWD_g'].mean(),4),
     'Avg_CO2_OneByte_g': round(df['CO2_OneByte_g'].mean(),4)

@@ -1,0 +1,10 @@
+Metric,Value
+Avg_PerfScore_pct,62.95
+Avg_FCP_ms,5743.48
+Avg_LCP_ms,11111.53
+Avg_SpeedIndex_ms,6572.65
+Avg_Requests,53.14
+Avg_JSBytes,0.0
+Avg_PageWeight_MB,2.252
+Avg_CO2_SWD_g,0.9045
+Avg_CO2_OneByte_g,0.6866

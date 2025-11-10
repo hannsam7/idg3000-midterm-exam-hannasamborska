@@ -14,7 +14,7 @@ os.makedirs(charts_dir, exist_ok=True)
 df = pd.read_csv(results_csv)
 
 # Clean numeric columns (Lighthouse gives ms)
-for col in ['PerfScore', 'FCP', 'LCP', 'SpeedIndex']:
+for col in ['PerfScore', 'FCP', 'LCP', 'SpeedIndex', 'PageWeightBytes', 'Requests', 'JSBytes', 'CO2_SWD_g', 'CO2_OneByte_g']:
     df[col] = pd.to_numeric(df[col], errors='coerce')
 
 # 1. Bar chart: Municipality vs PerfScore
@@ -62,8 +62,22 @@ bar2_path = os.path.join(charts_dir, 'green_hosting_bar.png')
 plt.savefig(bar2_path, dpi=150)
 plt.close()
 
+# JSBytes vs CO2 (SWD) scatter
+plt.figure(figsize=(6,4))
+plt.scatter(df['JSBytes'] / 1024.0, df['CO2_SWD_g'], c='#6a4fbf', s=35, alpha=0.85)
+plt.xlabel('JS Transfer (KB)')
+plt.ylabel('CO2 (SWD grams)')
+plt.title('JS Bytes vs CO2 (SWD Model)')
+plt.tight_layout()
+js_co2_path = os.path.join(charts_dir, 'jsbytes_vs_co2.png')
+plt.savefig(js_co2_path, dpi=150)
+plt.close()
+
+
+
 print('Generated:')
 print(f'- {bar_path}')
 print(f'- {pie_path}')
 print(f'- {bar2_path}')
 print(f'- {avg_csv}')
+print(f'- {js_co2_path}')

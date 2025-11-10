@@ -8,7 +8,7 @@ lighthouse_dir = os.path.join(base_dir, '..', 'evidence', 'lighthouse')
 hosting_dir = os.path.join(base_dir, '..', 'evidence', 'hosting')
 output_csv = os.path.join(base_dir, '..', 'evidence', 'results.csv')
 
-fieldnames = ['Municipality','URL','PerfScore','FCP','LCP','SpeedIndex','PageWeightBytes','Requests','GreenHosting','CarbonTxt','CO2_SWD_g','CO2_OneByte_g']
+fieldnames = ['Municipality','URL','PerfScore','FCP','LCP','SpeedIndex','PageWeightBytes','Requests','JSBytes','GreenHosting','CarbonTxt','CO2_SWD_g','CO2_OneByte_g']
 
 def read_json(path):
     with open(path, 'r', encoding='utf-8') as f:
@@ -34,7 +34,7 @@ with open(output_csv, 'w', newline='', encoding='utf-8') as csvfile:
         req_items = audits.get('network-requests', {}).get('details', {}).get('items', []) if audits.get('network-requests') else []
         req_count = len(req_items) if isinstance(req_items, list) else ''
 
-                # Green hosting
+        # Green hosting
         green_path = os.path.join(hosting_dir, f'{domain}_greenweb.json')
         if os.path.exists(green_path):
             green_json = read_json(green_path)
@@ -46,7 +46,7 @@ with open(output_csv, 'w', newline='', encoding='utf-8') as csvfile:
         carbon_path = os.path.join(hosting_dir, f'{domain}_carbon.txt')
         carbon_txt = 'Yes' if os.path.exists(carbon_path) else 'No'
 
-        # CO2 (from compute_co2.js output)
+        # CO2
         co2_path = os.path.join(hosting_dir, f'{domain}_co2.json')
         co2_swd = ''
         co2_onebyte = ''
@@ -54,6 +54,15 @@ with open(output_csv, 'w', newline='', encoding='utf-8') as csvfile:
             co2_json = read_json(co2_path)
             co2_swd = co2_json.get('co2_swd_g', '')
             co2_onebyte = co2_json.get('co2_onebyte_g', '')
+
+        # JS bytes (sum of transferSize for script resources)
+        js_bytes = 0
+        if isinstance(req_items, list):
+            for item in req_items:
+                if isinstance(item, dict) and item.get('resourceType') == 'Script':
+                    transfer = item.get('transferSize')
+                    if isinstance(transfer, (int, float)):
+                        js_bytes += transfer
 
         writer.writerow({
             'Municipality': domain,
@@ -64,6 +73,7 @@ with open(output_csv, 'w', newline='', encoding='utf-8') as csvfile:
             'SpeedIndex': speed,
             'PageWeightBytes': page_bytes,
             'Requests': req_count,
+            'JSBytes': js_bytes,
             'GreenHosting': green_hosting,
             'CarbonTxt': carbon_txt,
             'CO2_SWD_g': co2_swd,

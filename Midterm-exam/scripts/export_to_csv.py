@@ -8,7 +8,7 @@ lighthouse_dir = os.path.join(base_dir, '..', 'evidence', 'lighthouse')
 hosting_dir = os.path.join(base_dir, '..', 'evidence', 'hosting')
 output_csv = os.path.join(base_dir, '..', 'evidence', 'results.csv')
 
-fieldnames = ['Municipality', 'URL', 'PerfScore', 'FCP', 'LCP', 'SpeedIndex', 'GreenHosting', 'CarbonTxt']
+fieldnames = ['Municipality','URL','PerfScore','FCP','LCP','SpeedIndex','PageWeightBytes','Requests','GreenHosting','CarbonTxt','CO2_SWD_g','CO2_OneByte_g']
 
 def read_json(path):
     with open(path, 'r', encoding='utf-8') as f:
@@ -30,8 +30,11 @@ with open(output_csv, 'w', newline='', encoding='utf-8') as csvfile:
         fcp = audits.get('first-contentful-paint', {}).get('numericValue', '')
         lcp = audits.get('largest-contentful-paint', {}).get('numericValue', '')
         speed = audits.get('speed-index', {}).get('numericValue', '')
+        page_bytes = audits.get('total-byte-weight', {}).get('numericValue', '')
+        req_items = audits.get('network-requests', {}).get('details', {}).get('items', []) if audits.get('network-requests') else []
+        req_count = len(req_items) if isinstance(req_items, list) else ''
 
-        # Green hosting status
+                # Green hosting
         green_path = os.path.join(hosting_dir, f'{domain}_greenweb.json')
         if os.path.exists(green_path):
             green_json = read_json(green_path)
@@ -39,9 +42,18 @@ with open(output_csv, 'w', newline='', encoding='utf-8') as csvfile:
         else:
             green_hosting = ''
 
-        # carbon.txt presence
+        # carbon.txt
         carbon_path = os.path.join(hosting_dir, f'{domain}_carbon.txt')
         carbon_txt = 'Yes' if os.path.exists(carbon_path) else 'No'
+
+        # CO2 (from compute_co2.js output)
+        co2_path = os.path.join(hosting_dir, f'{domain}_co2.json')
+        co2_swd = ''
+        co2_onebyte = ''
+        if os.path.exists(co2_path):
+            co2_json = read_json(co2_path)
+            co2_swd = co2_json.get('co2_swd_g', '')
+            co2_onebyte = co2_json.get('co2_onebyte_g', '')
 
         writer.writerow({
             'Municipality': domain,
@@ -50,8 +62,12 @@ with open(output_csv, 'w', newline='', encoding='utf-8') as csvfile:
             'FCP': fcp,
             'LCP': lcp,
             'SpeedIndex': speed,
+            'PageWeightBytes': page_bytes,
+            'Requests': req_count,
             'GreenHosting': green_hosting,
-            'CarbonTxt': carbon_txt
+            'CarbonTxt': carbon_txt,
+            'CO2_SWD_g': co2_swd,
+            'CO2_OneByte_g': co2_onebyte
         })
 
 print(f'Wrote CSV: {output_csv}')

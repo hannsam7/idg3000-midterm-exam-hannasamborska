@@ -74,12 +74,20 @@ pip install -r requirements.txt
 
 ### Run Audit
 ```sh
-node audit.js          # Produces per-run + synthesized median Lighthouse + hosting checks
-node compute_co2.js    # Adds *_co2.json files
+# Node (audit + CO2)
+cd Midterm-exam/scripts/node
+npm install
+npm run audit
+npm run co2
+
+# Python (CSV + charts + spreadsheets)
+cd ../python
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
 python3 export_to_csv.py
 python3 visualize.py
 python3 spreadsheet_maker.py
-node extract_screenshots.js   # Optional, produces screenshots of each site
 ```
 
 ### Outputs Verification

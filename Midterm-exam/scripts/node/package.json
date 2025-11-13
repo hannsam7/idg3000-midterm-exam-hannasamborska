@@ -6,10 +6,12 @@
   "scripts": {
     "audit": "node audit.js",
     "co2": "node compute_co2.js",
-    "screenshots": "node extract_screenshots.js"
+    "screenshots": "node extract_screenshots.js",
+    "per-site-xlsx": "node per-site-xlsx.js" 
   },
   "dependencies": {
     "@tgwf/co2": "^0.16.9",
-    "lighthouse": "^13.0.1"
+    "lighthouse": "^13.0.1",
+    "xlsx": "^0.18.5"
   }
 }

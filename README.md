@@ -80,6 +80,9 @@ npm install
 npm run audit
 npm run co2
 
+# Per-site Excel workbooks (Oblig 2 script)
+npm run per-site-xlsx    # writes evidence/spreadsheets/per_site/<domain>.xlsx
+
 # Python (CSV + charts + spreadsheets)
 cd ../python
 python3 -m venv venv

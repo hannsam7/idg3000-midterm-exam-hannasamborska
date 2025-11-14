@@ -61,12 +61,13 @@ evidence/
 ### Setup
 ```sh
 git clone <repo-url>
-cd Midterm-exam/scripts
 
-# Install Node deps
-npm install @tgwf/co2 node-fetch
+# Node deps (Node 18+ has global fetch; no node-fetch needed)
+cd Midterm-exam/scripts/node
+npm install   # installs lighthouse, @tgwf/co2, xlsx
 
 # Python venv
+cd ../python
 python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
@@ -75,19 +76,17 @@ pip install -r requirements.txt
 ### Run Audit
 ```sh
 # Node (audit + CO2)
-cd Midterm-exam/scripts/node
-npm install
+cd ../node
 npm run audit
 npm run co2
 
 # Per-site Excel workbooks (Oblig 2 script)
 npm run per-site-xlsx    # writes evidence/spreadsheets/per_site/<domain>.xlsx
+```
 
-# Python (CSV + charts + spreadsheets)
+### Aggregate and visualize (Python)
+```sh
 cd ../python
-python3 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
 python3 export_to_csv.py
 python3 visualize.py
 python3 spreadsheet_maker.py
@@ -95,10 +94,11 @@ python3 spreadsheet_maker.py
 
 ### Outputs Verification
 ```sh
-ls ../evidence/lighthouse/*.json | wc -l    # Count synthesized reports
-head ../evidence/results.csv
-ls ../evidence/charts
-ls ../evidence/spreadsheets
+# From repo root
+ls evidence/lighthouse/*.json | wc -l    # Count synthesized reports
+head -n 5 evidence/results.csv
+ls evidence/charts
+ls evidence/spreadsheets
 ```
 
 To clean and re-run (keeping raw audit evidence only):

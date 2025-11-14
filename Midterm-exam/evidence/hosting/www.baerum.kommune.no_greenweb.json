@@ -6,7 +6,7 @@
   "partner": null,
   "green": true,
   "hosted_by_id": 779,
-  "modified": "2025-11-10T20:22:26",
+  "modified": "2025-11-14T12:58:16",
   "supporting_documents": [
     {
       "id": 18,
@@ -16,7 +16,7 @@
     {
       "id": 1264,
       "title": "Cloudflare 2023 Emissions Inventory",
-      "link": "https://s3.nl-ams.scw.cloud/tgwf-web-app-live/uploads/Cloudflare_2023_Emissions_Inventory.pdf?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=SCWT1WBAW6NZ5SW5GYJ8%2F20251110%2Fnl-ams%2Fs3%2Faws4_request&X-Amz-Date=20251110T222909Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=ffecc23c2a75a1a7040aad8ce0188bc164c38e1f6ed5dc78b09d08376b699010"
+      "link": "https://s3.nl-ams.scw.cloud/tgwf-web-app-live/uploads/Cloudflare_2023_Emissions_Inventory.pdf?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=SCWT1WBAW6NZ5SW5GYJ8%2F20251114%2Fnl-ams%2Fs3%2Faws4_request&X-Amz-Date=20251114T171350Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=3cf4027bb53e60266bbbbaa6985ca3ced049ea511297e0d3aee4cdb7aec3a2d7"
     }
   ]
 }

@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import { execSync } from "child_process";
-import { Co2 } from "@tgwf/co2";
+import { co2 } from "@tgwf/co2";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -24,8 +24,9 @@ const municipalities = JSON.parse(fs.readFileSync(municipalitiesPath, "utf-8"));
   if (!fs.existsSync(d)) fs.mkdirSync(d, { recursive: true });
 });
 
-// CO2 calculator and summary array
-const co2 = new Co2();
+// CO2 calculators
+const co2One = new co2({ model: "1byte" });
+const co2Swd = new co2({ model: "swd" });
 const summary = [];
 
 function median(arr) {
@@ -183,10 +184,8 @@ async function auditSite(url) {
       )
       .reduce((sum, it) => sum + (it.transferSize || 0), 0);
 
-    const oneRes = co2.perByte(transferBytes || 0, { model: "1byte" });
-    const swdRes = co2.perByte(transferBytes || 0, { model: "swd" });
-    const co2_onebyte_grams = typeof oneRes === "number" ? oneRes : oneRes?.co2 ?? null;
-    const co2_swd_grams = typeof swdRes === "number" ? swdRes : swdRes?.co2 ?? null;
+      const co2_onebyte_grams = co2One.perByte(transferBytes || 0);
+      const co2_swd_grams = co2Swd.perByte(transferBytes || 0);
 
     summary.push({
       url,
@@ -228,9 +227,13 @@ async function auditSite(url) {
     if (greenRes.ok) {
       const greenJson = await greenRes.json();
       fs.writeFileSync(
-        `${hostingOutputDir}${host}_greenweb.json`,
-        JSON.stringify(greenJson, null, 2)
-      );
+        `${hostingOutputDir}${host}_greencheck.json`,
+        JSON.stringify(
+        { url, domain: host, checkedAt: new Date().toISOString(), ...greenJson },
+        null,
+        2
+        )
+        );
       console.log(`Green hosting data saved for ${url}`);
     } else {
       console.warn(`Green Web check failed (${greenRes.status}) for ${url}`);

@@ -6,7 +6,8 @@
   "scripts": {
     "audit": "node audit.js",
     "co2": "node compute_co2.js",
-    "screenshots": "node extract_screenshots.js"
+    "screenshots": "node extract_screenshots.js",
+    "host-check": "node host-check.mjs"
   },
   "dependencies": {
     "@tgwf/co2": "^0.16.9",

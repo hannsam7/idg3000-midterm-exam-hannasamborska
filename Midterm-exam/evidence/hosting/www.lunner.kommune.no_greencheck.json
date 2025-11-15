@@ -1,0 +1,24 @@
+{
+  "url": "www.lunner.kommune.no",
+  "domain": "www.lunner.kommune.no",
+  "checkedAt": "2025-11-15T13:05:45.105Z",
+  "hosted_by": "Sitevision AB",
+  "hosted_by_website": "https://sitevision.se",
+  "listed_provider": true,
+  "partner": null,
+  "green": true,
+  "hosted_by_id": 1180,
+  "modified": "2025-11-15T12:57:43",
+  "supporting_documents": [
+    {
+      "id": 1006,
+      "title": "Certification of datacenter",
+      "link": "http://triplegreen.net"
+    },
+    {
+      "id": 1935,
+      "title": "Hydropower Certificate 2025 – Bahnhof AB",
+      "link": "https://s3.nl-ams.scw.cloud/tgwf-web-app-live/uploads/GoOs_certificate_2025_hydro_-_Bahnhof_AB.pdf?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=SCWT1WBAW6NZ5SW5GYJ8%2F20251115%2Fnl-ams%2Fs3%2Faws4_request&X-Amz-Date=20251115T130545Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=b4c8e0fdc2398751c505aba191e251ff2d64b2e54724f835f7aed724346fcda1"
+    }
+  ]
+}

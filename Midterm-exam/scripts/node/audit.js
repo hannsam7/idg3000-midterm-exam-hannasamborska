@@ -2,6 +2,7 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import { execSync } from "child_process";
+import { Co2 } from "@tgwf/co2";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -12,6 +13,7 @@ const repoRoot = path.resolve(__dirname, "..", "..");
 const lighthouseOutputDir = path.join(repoRoot, "evidence", "lighthouse") + path.sep;
 const lighthouseRunsDir = path.join(lighthouseOutputDir, "runs") + path.sep;
 const hostingOutputDir = path.join(repoRoot, "evidence", "hosting") + path.sep;
+const evidenceDir = path.join(repoRoot, "evidence");
 
 // Shared data
 const municipalitiesPath = path.join(repoRoot, "scripts", "municipalities.json");
@@ -21,6 +23,10 @@ const municipalities = JSON.parse(fs.readFileSync(municipalitiesPath, "utf-8"));
 [lighthouseOutputDir, lighthouseRunsDir, hostingOutputDir].forEach(d => {
   if (!fs.existsSync(d)) fs.mkdirSync(d, { recursive: true });
 });
+
+// CO2 calculator and summary array
+const co2 = new Co2();
+const summary = [];
 
 function median(arr) {
     // Returns the statistical median; filters all non-numbers, sorts ascending
@@ -165,6 +171,39 @@ async function auditSite(url) {
     console.log(
       `Saved synthesized median report for ${url} -> ${lighthouseFile}`
     );
+
+    // Derive metrics for summary of transfer bytes, JS bytes, CO2
+    const transferBytes = typeof medBytes === "number" ? medBytes : undefined;
+    const jsBytes = chosenItems
+      .filter(
+        (it) =>
+          it.resourceType === "Script" ||
+          /javascript/.test(it.mimeType || "") ||
+          /\.m?js(\?|#|$)/i.test(it.url || "")
+      )
+      .reduce((sum, it) => sum + (it.transferSize || 0), 0);
+
+    const oneRes = co2.perByte(transferBytes || 0, { model: "1byte" });
+    const swdRes = co2.perByte(transferBytes || 0, { model: "swd" });
+    const co2_onebyte_grams = typeof oneRes === "number" ? oneRes : oneRes?.co2 ?? null;
+    const co2_swd_grams = typeof swdRes === "number" ? swdRes : swdRes?.co2 ?? null;
+
+    summary.push({
+      url,
+      domain,
+      timestamp: new Date().toISOString(),
+      performanceScore: typeof medPerf === "number" ? Math.round(medPerf * 100) : null,
+      transferBytes,
+      requests: medReqs ?? null,
+      jsBytes,
+      co2_onebyte_grams,
+      co2_swd_grams,
+      fcp_ms: medFcp ?? null,
+      lcp_ms: medLcp ?? null,
+      speed_index_ms: medSpeed ?? null,
+      tbt_ms: medTbt ?? null,
+      cls: medCls ?? null
+    });
   }
 
   // 3. Check for carbon.txt
@@ -205,4 +244,24 @@ async function auditSite(url) {
   for (const url of municipalities) {
     await auditSite(url);
   }
+
+  // Write summary JSON + CSV
+  if (!fs.existsSync(evidenceDir)) fs.mkdirSync(evidenceDir, { recursive: true });
+  const summaryJsonPath = path.join(evidenceDir, "summary.json");
+  fs.writeFileSync(summaryJsonPath, JSON.stringify(summary, null, 2), "utf-8");
+
+  const keys = Array.from(new Set(summary.flatMap(o => Object.keys(o))));
+  const csvRows = [
+    keys.join(","),
+    ...summary.map(row =>
+      keys.map(k => {
+        const v = row[k];
+        if (v === null || v === undefined) return "";
+        const s = String(v).replace(/"/g, '""');
+        return `"${s}"`;
+      }).join(",")
+    )
+  ].join("\n");
+  fs.writeFileSync(path.join(evidenceDir, "summary.csv"), csvRows, "utf-8");
+  console.log("Summary written to evidence/summary.json and evidence/summary.csv");
 })();

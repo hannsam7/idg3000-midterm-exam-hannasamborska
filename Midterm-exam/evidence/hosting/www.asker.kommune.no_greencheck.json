@@ -1,14 +1,14 @@
 {
   "url": "www.asker.kommune.no",
   "domain": "www.asker.kommune.no",
-  "checkedAt": "2025-11-15T13:05:39.860Z",
+  "checkedAt": "2025-11-15T15:37:33.680Z",
   "hosted_by": "Cloudflare",
   "hosted_by_website": "https://www.cloudflare.com",
   "listed_provider": true,
   "partner": null,
   "green": true,
   "hosted_by_id": 779,
-  "modified": "2025-11-15T12:50:41",
+  "modified": "2025-11-15T13:36:41",
   "supporting_documents": [
     {
       "id": 18,
@@ -18,7 +18,7 @@
     {
       "id": 1264,
       "title": "Cloudflare 2023 Emissions Inventory",
-      "link": "https://s3.nl-ams.scw.cloud/tgwf-web-app-live/uploads/Cloudflare_2023_Emissions_Inventory.pdf?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=SCWT1WBAW6NZ5SW5GYJ8%2F20251115%2Fnl-ams%2Fs3%2Faws4_request&X-Amz-Date=20251115T130539Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=812c55997a739ddbac5a72465beb0e5ccc6f3c3e7215cc7c3b9fd1193aa43664"
+      "link": "https://s3.nl-ams.scw.cloud/tgwf-web-app-live/uploads/Cloudflare_2023_Emissions_Inventory.pdf?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=SCWT1WBAW6NZ5SW5GYJ8%2F20251115%2Fnl-ams%2Fs3%2Faws4_request&X-Amz-Date=20251115T153733Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=8a3aaebab7b0ae981980153c78de2928a3f61ce7367ef941257ff914454fa3c8"
     }
   ]
 }

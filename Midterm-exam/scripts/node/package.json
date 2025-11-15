@@ -5,13 +5,13 @@
   "version": "1.0.0",
   "scripts": {
     "audit": "node audit.js",
-    "co2": "node compute_co2.js",
-    "screenshots": "node extract_screenshots.js",
-    "host-check": "node host-check.mjs"
+    "host-check": "node host-check.mjs",
+    "host:screens": "node screenshot-hosting.mjs"
   },
   "dependencies": {
     "@tgwf/co2": "^0.16.9",
-    "lighthouse": "^13.0.1"
+    "lighthouse": "^13.0.1",
+    "puppeteer": "^22.15.0"
   },
   "overrides": {
     "validator": "^13.15.20"

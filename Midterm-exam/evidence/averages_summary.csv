@@ -1,5 +1,6 @@
 Metric,Value
-Avg_FCP_ms,5952.76
-Avg_LCP_ms,11438.89
-Avg_SpeedIndex_ms,6597.89
-Avg_PerfScore_pct,61.62
+Avg_PerfScore,62.57
+Avg_LCP_ms,11043.28
+Avg_FCP_ms,5843.86
+Avg_Transfer_KB,2318.47
+Avg_CO2_SWD_g,0.9095

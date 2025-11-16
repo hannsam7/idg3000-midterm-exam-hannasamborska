@@ -1,14 +1,14 @@
 {
   "url": "www.lunner.kommune.no",
   "domain": "www.lunner.kommune.no",
-  "checkedAt": "2025-11-15T15:37:41.641Z",
+  "checkedAt": "2025-11-16T11:58:23.313Z",
   "hosted_by": "Sitevision AB",
   "hosted_by_website": "https://sitevision.se",
   "listed_provider": true,
   "partner": null,
   "green": true,
   "hosted_by_id": 1180,
-  "modified": "2025-11-15T13:43:45",
+  "modified": "2025-11-15T15:52:23",
   "supporting_documents": [
     {
       "id": 1006,
@@ -18,7 +18,7 @@
     {
       "id": 1935,
       "title": "Hydropower Certificate 2025 – Bahnhof AB",
-      "link": "https://s3.nl-ams.scw.cloud/tgwf-web-app-live/uploads/GoOs_certificate_2025_hydro_-_Bahnhof_AB.pdf?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=SCWT1WBAW6NZ5SW5GYJ8%2F20251115%2Fnl-ams%2Fs3%2Faws4_request&X-Amz-Date=20251115T153741Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=c5303cdcf61a0cb2d80b26b193a3c16249234de6d5ebf1251c3b6c089be7d09e"
+      "link": "https://s3.nl-ams.scw.cloud/tgwf-web-app-live/uploads/GoOs_certificate_2025_hydro_-_Bahnhof_AB.pdf?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=SCWT1WBAW6NZ5SW5GYJ8%2F20251116%2Fnl-ams%2Fs3%2Faws4_request&X-Amz-Date=20251116T115823Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=e121ef580ac1fd020127b7b972c0279a8700316f1916641b4c9319a608b56421"
     }
   ]
 }

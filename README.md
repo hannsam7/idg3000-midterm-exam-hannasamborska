@@ -24,7 +24,7 @@ node host-check.mjs
 - evidence/charts/*.png
 
 ## Regenerate
-Delete evidence folder or run `npm run clean` (if added) then rerun commands above.
+Delete evidence folder then rerun commands above.
 
 ## Notes
 - Fylke audited: Akershus (21 municipalities). No carbon.txt found (0/21).

@@ -44,8 +44,28 @@ function getAuditNumeric(run, id) {
 }
 
 async function auditSite(url) {
-    // Normalize URL to filesystem-safe domain key
   const domain = url.replace(/^https?:\/\//, "").replace(/[\/:]/g, "_");
+  const host = url.replace(/^https?:\/\//, "").replace(/\/+$/, "");
+  let greenHosting = null;
+
+  // Fetch Green Web Check early and save JSON
+  try {
+    const apiUrl = `https://api.thegreenwebfoundation.org/greencheck/${host}`;
+    const greenRes = await fetch(apiUrl);
+    if (greenRes.ok) {
+      const greenJson = await greenRes.json();
+      greenHosting = Boolean(greenJson.green);
+      fs.writeFileSync(
+        `${hostingOutputDir}${host}_greencheck.json`,
+        JSON.stringify({ url, domain: host, checkedAt: new Date().toISOString(), ...greenJson }, null, 2)
+      );
+      console.log(`Green hosting data saved for ${url}`);
+    } else {
+      console.warn(`Green Web check failed (${greenRes.status}) for ${url}`);
+    }
+  } catch (e) {
+    console.error(`Green Web check error for ${url}:`, e.message);
+  }
 
   // 1) Run multiple cold Lighthouse runs in order to reduce variance
   const NUM_RUNS = 3;
@@ -187,22 +207,23 @@ async function auditSite(url) {
       const co2_onebyte_grams = co2One.perByte(transferBytes || 0);
       const co2_swd_grams = co2Swd.perByte(transferBytes || 0);
 
-    summary.push({
-      url,
-      domain,
-      timestamp: new Date().toISOString(),
-      performanceScore: typeof medPerf === "number" ? Math.round(medPerf * 100) : null,
-      transferBytes,
-      requests: medReqs ?? null,
-      jsBytes,
-      co2_onebyte_grams,
-      co2_swd_grams,
-      fcp_ms: medFcp ?? null,
-      lcp_ms: medLcp ?? null,
-      speed_index_ms: medSpeed ?? null,
-      tbt_ms: medTbt ?? null,
-      cls: medCls ?? null
-    });
+      summary.push({
+        url,
+        domain,
+        timestamp: new Date().toISOString(),
+        performanceScore: typeof medPerf === "number" ? Math.round(medPerf * 100) : null,
+        transferBytes,
+        requests: medReqs ?? null,
+        jsBytes,
+        co2_onebyte_grams,
+        co2_swd_grams,
+        greenHosting, 
+        fcp_ms: medFcp ?? null,
+        lcp_ms: medLcp ?? null,
+        speed_index_ms: medSpeed ?? null,
+        tbt_ms: medTbt ?? null,
+        cls: medCls ?? null
+      });
   }
 
   // 3. Check for carbon.txt
@@ -217,29 +238,6 @@ async function auditSite(url) {
     }
   } catch (e) {
     console.error(`carbon.txt check failed for ${url}:`, e.message);
-  }
-
-  try {
-    // derive host without protocol
-    const host = url.replace(/^https?:\/\//, "").replace(/\/+$/, "");
-    const apiUrl = `https://api.thegreenwebfoundation.org/greencheck/${host}`;
-    const greenRes = await fetch(apiUrl);
-    if (greenRes.ok) {
-      const greenJson = await greenRes.json();
-      fs.writeFileSync(
-        `${hostingOutputDir}${host}_greencheck.json`,
-        JSON.stringify(
-        { url, domain: host, checkedAt: new Date().toISOString(), ...greenJson },
-        null,
-        2
-        )
-        );
-      console.log(`Green hosting data saved for ${url}`);
-    } else {
-      console.warn(`Green Web check failed (${greenRes.status}) for ${url}`);
-    }
-  } catch (e) {
-    console.error(`Green Web check error for ${url}:`, e.message);
   }
 }
 

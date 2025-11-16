@@ -1,14 +1,14 @@
 {
   "url": "www.jevnaker.kommune.no",
   "domain": "www.jevnaker.kommune.no",
-  "checkedAt": "2025-11-15T15:37:40.180Z",
+  "checkedAt": "2025-11-16T11:56:59.681Z",
   "hosted_by": "Sitevision AB",
   "hosted_by_website": "https://sitevision.se",
   "listed_provider": true,
   "partner": null,
   "green": true,
   "hosted_by_id": 1180,
-  "modified": "2025-11-15T13:51:12",
+  "modified": "2025-11-15T15:46:39",
   "supporting_documents": [
     {
       "id": 1006,
@@ -18,7 +18,7 @@
     {
       "id": 1935,
       "title": "Hydropower Certificate 2025 – Bahnhof AB",
-      "link": "https://s3.nl-ams.scw.cloud/tgwf-web-app-live/uploads/GoOs_certificate_2025_hydro_-_Bahnhof_AB.pdf?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=SCWT1WBAW6NZ5SW5GYJ8%2F20251115%2Fnl-ams%2Fs3%2Faws4_request&X-Amz-Date=20251115T153740Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=5ae97977dc48db310acbfebfc231a36574e579c972cc79333911fdc1ba75cf23"
+      "link": "https://s3.nl-ams.scw.cloud/tgwf-web-app-live/uploads/GoOs_certificate_2025_hydro_-_Bahnhof_AB.pdf?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=SCWT1WBAW6NZ5SW5GYJ8%2F20251116%2Fnl-ams%2Fs3%2Faws4_request&X-Amz-Date=20251116T115659Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=ff6b84d0283c9f13bb52f3b9333c624cc02cf4f9eb6a74cd2d51d740bacae12c"
     }
   ]
 }

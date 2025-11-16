@@ -1,14 +1,14 @@
 {
   "url": "www.baerum.kommune.no",
   "domain": "www.baerum.kommune.no",
-  "checkedAt": "2025-11-15T15:37:34.584Z",
+  "checkedAt": "2025-11-16T11:47:46.168Z",
   "hosted_by": "Cloudflare",
   "hosted_by_website": "https://www.cloudflare.com",
   "listed_provider": true,
   "partner": null,
   "green": true,
   "hosted_by_id": 779,
-  "modified": "2025-11-15T13:38:04",
+  "modified": "2025-11-15T15:50:58",
   "supporting_documents": [
     {
       "id": 18,
@@ -18,7 +18,7 @@
     {
       "id": 1264,
       "title": "Cloudflare 2023 Emissions Inventory",
-      "link": "https://s3.nl-ams.scw.cloud/tgwf-web-app-live/uploads/Cloudflare_2023_Emissions_Inventory.pdf?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=SCWT1WBAW6NZ5SW5GYJ8%2F20251115%2Fnl-ams%2Fs3%2Faws4_request&X-Amz-Date=20251115T153734Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=49fb3c836b337e6eae437465cd579eeaa03d22f54c434acb7ed5d01451112709"
+      "link": "https://s3.nl-ams.scw.cloud/tgwf-web-app-live/uploads/Cloudflare_2023_Emissions_Inventory.pdf?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=SCWT1WBAW6NZ5SW5GYJ8%2F20251116%2Fnl-ams%2Fs3%2Faws4_request&X-Amz-Date=20251116T114746Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=9d895d9288342af20d22c0e87a00f1562f9d8b7cf261c8c2510dccf1783c8f52"
     }
   ]
 }

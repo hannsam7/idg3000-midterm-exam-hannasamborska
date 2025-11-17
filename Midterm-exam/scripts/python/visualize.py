@@ -2,7 +2,7 @@ import os, csv, pandas as pd, matplotlib.pyplot as plt
 from pathlib import Path
 
 base_dir = Path(__file__).resolve().parent
-# evidence folder is at Midterm-exam/evidence (two levels up from scripts/python)
+
 evidence_dir = base_dir.parent.parent / "evidence"
 results_csv = evidence_dir / "results.csv"
 if not results_csv.exists():

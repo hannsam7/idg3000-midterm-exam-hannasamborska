@@ -139,7 +139,7 @@ function buildWorkbookFor(url) {
 }
 
 async function main() {
-  const arg = process.argv[2]; // optional filter (domain key or URL fragment)
+  const arg = process.argv[2]; 
   const targets = arg
     ? municipalities.filter(u => domainKey(u).includes(arg) || u.includes(arg))
     : municipalities;
